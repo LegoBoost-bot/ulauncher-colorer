@@ -1,0 +1,46 @@
+##[pylyzer] failed /home/legoboost/.local/share/ulauncher/extensions/colorer/main.py 1791748015 2859
+.___v_desugar_1 = pyimport "Extension"
+.Extension = pyimport "Extension"
+.Extension: {ulauncher.api.client.Extension.Extension}
+.___v_desugar_2 = pyimport "EventListener"
+.EventListener = pyimport "EventListener"
+.EventListener: {ulauncher.api.client.EventListener.EventListener}
+.___v_desugar_3 = pyimport "event"
+.event = pyimport "event"
+.KeywordQueryEvent: {ulauncher.api.shared.event.KeywordQueryEvent}
+.ItemEnterEvent: {ulauncher.api.shared.event.ItemEnterEvent}
+.___v_desugar_4 = pyimport "ExtensionResultItem"
+.ExtensionResultItem = pyimport "ExtensionResultItem"
+.ExtensionResultItem: {ulauncher.api.shared.item.ExtensionResultItem.ExtensionResultItem}
+.___v_desugar_5 = pyimport "RenderResultListAction"
+.RenderResultListAction = pyimport "RenderResultListAction"
+.RenderResultListAction: {ulauncher.api.shared.action.RenderResultListAction.RenderResultListAction}
+.___v_desugar_6 = pyimport "HideWindowAction"
+.HideWindowAction = pyimport "HideWindowAction"
+.HideWindowAction: {ulauncher.api.shared.action.HideWindowAction.HideWindowAction}
+.___v_desugar_7 = pyimport "DoNothingAction"
+.DoNothingAction = pyimport "DoNothingAction"
+.DoNothingAction: {ulauncher.api.shared.action.DoNothingAction.DoNothingAction}
+.webcolors = pyimport "webcolors"
+
+.os = pyimport "os"
+
+.TEMP_ICON_DIR: {".tmp.ulauncher-colorer."}
+.ColorExtension: ClassType
+ulauncher = pyimport "ulauncher"
+.ColorExtension <: ulauncher.api.client.Extension.Extension
+.ColorExtension.__call__: () -> main.ColorExtension
+
+.svg_template: (hex: Obj) -> Str
+.create_color_icon: (hex: Str) -> Str
+.query_color: (color: Str) -> global::Tuple([Never, Str, Str])
+.get_hex: (color: Str) -> NoneType or global::Tuple([Str, Bool])
+.KeywordQueryEventListener: ClassType
+.KeywordQueryEventListener <: ulauncher.api.client.EventListener.EventListener
+.KeywordQueryEventListener.get_empty_result: (self: main.KeywordQueryEventListener) -> ulauncher.api.shared.action.RenderResultListAction.RenderResultListAction
+.KeywordQueryEventListener.on_event: |Type_222226 <: Structural({.get_argument = (self: Obj) -> Never})|(self: main.KeywordQueryEventListener, event: Type_222226, extension: Obj) -> ulauncher.api.shared.action.RenderResultListAction.RenderResultListAction
+
+
+
+
+

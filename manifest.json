@@ -1,0 +1,19 @@
+{
+  "required_api_version": "2",
+  "name": "Colorer",
+  "description": "Save, Preview and Convert Colors",
+  "developer_name": "me",
+  "icon": "images/icon.png",
+  "options": {
+    "query_debounce": 0.1
+  },
+  "preferences": [
+    {
+      "id": "preview_kw",
+      "type": "keyword",
+      "name": "Preview",
+      "description": "Preview a color",
+      "default_value": "col"
+    }
+  ]
+}
