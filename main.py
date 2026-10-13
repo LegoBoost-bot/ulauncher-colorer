@@ -2,14 +2,21 @@ from ulauncher.api.client.Extension import Extension
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.event import KeywordQueryEvent, ItemEnterEvent
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
-from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
+from ulauncher.api.shared.action.RenderResultListAction import (
+    RenderResultListAction,
+)
 from ulauncher.api.shared.action.DoNothingAction import DoNothingAction
-from ulauncher.api.shared.action.CopyToClipboardAction import CopyToClipboardAction
-from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
+from ulauncher.api.shared.action.CopyToClipboardAction import (
+    CopyToClipboardAction,
+)
+from ulauncher.api.shared.action.ExtensionCustomAction import (
+    ExtensionCustomAction,
+)
 
 import webcolors
 import os
 import json
+import searcher
 
 TEMP_ICON_DIR = "/tmp/ulauncher-colorer/"
 CUSTOM_COLORS_JSON = os.path.join(
@@ -55,45 +62,28 @@ def create_color_icon(hex: str):
     return path
 
 
+def create_result_item(hex: str, name: str | None) -> ExtensionResultItem:
+    icon_path = create_color_icon(hex)
+
+    if name is None:
+        text = hex
+    else:
+        text = f'{hex} ({name})'
+
+    return ExtensionResultItem(
+        icon=icon_path,
+        name=text,
+        description='enter to copy hex code',
+        on_enter=CopyToClipboardAction(hex),
+    )
+
+
 def query_color(color: str, custom_colors=None):
-    res = get_hex(color, custom_colors)
+    res = searcher.get_color(color, additional_colors=custom_colors)
     if res is None:
         return None
 
-    hex, is_name = res
-
-    if is_name:
-        name = f"#{hex} ({color})"
-    else:
-        name = f"#{hex}"
-
-    path = create_color_icon(hex)
-
-    return hex, name, path
-
-
-def get_hex(color: str, custom_colors=None) -> tuple[str, bool] | None:
-    if color is None or len(color.strip()) == 0:
-        return None
-
-    is_name = False
-
-    if custom_colors is not None and color in custom_colors:
-        return custom_colors[color], True
-
-    try:
-        c = webcolors.normalize_hex(color)
-    except ValueError:
-        try:
-            c = webcolors.normalize_hex("#" + color)
-        except ValueError:
-            try:
-                c = webcolors.name_to_hex(color)
-                is_name = True
-            except ValueError:
-                return None
-
-    return c[1:], is_name
+    return [create_result_item(hex, name) for hex, name in res]
 
 
 class SetCommand:
@@ -153,18 +143,7 @@ class KeywordQueryEventListener(EventListener):
         if res is None:
             return self.get_empty_result()
 
-        hex, name, path = res
-
-        items = [
-            ExtensionResultItem(
-                icon=path,
-                name=name,
-                description="enter to copy hex",
-                on_enter=CopyToClipboardAction(hex),
-            )
-        ]
-
-        return RenderResultListAction(items)
+        return RenderResultListAction(res)
 
 
 class ItemEnterEventListener(EventListener):
